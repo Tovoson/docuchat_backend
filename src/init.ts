@@ -1,12 +1,12 @@
-// Import de la connexion SQL Supabase
+// Import de la connexion SQL PostgreSQL
 import sql from "./config/db.js";
 
-// Fonction d'initialisation de la base de données Supabase
+// Fonction d'initialisation de la base de données PostgreSQL
 export const initdb = async () => {
   try {
-    // Vérifier la connexion à Supabase en récupérant la version PostgreSQL
+    // Vérifier la connexion à PostgreSQL en récupérant la version
     const versionResult = await sql`SELECT version()`;
-    console.log("✅ Connexion à Supabase réussie");
+    console.log("✅ Connexion à la base de données réussie");
 
     // Activer l'extension pgvector pour le stockage des embeddings vectoriels
     console.log("Initialisation du schéma de la base de données...");
