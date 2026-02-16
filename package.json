@@ -20,7 +20,7 @@
     "@langchain/textsplitters": "^1.0.1",
     "@neondatabase/serverless": "^1.0.2",
     "cors": "^2.8.6",
-    "dotenv": "^17.3.1",
+    "dotenv": "^16.6.1",
     "express": "^5.2.1",
     "langchain": "^1.2.24",
     "morgan": "^1.10.1",
