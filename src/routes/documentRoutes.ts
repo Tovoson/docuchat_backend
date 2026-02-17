@@ -7,7 +7,8 @@ import {
 
 const router = Router();
 
-const upload = multer({ dest: "uploads/" });
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 /**
  * @route POST /api/upload
