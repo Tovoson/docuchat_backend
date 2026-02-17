@@ -1,6 +1,9 @@
 import postgres from "postgres";
 
-const connectionString = process.env.DATABASE_URL;
+const connectionString =
+  process.env.NODE_ENV === "production"
+    ? process.env.DATABASE_URL_NEON
+    : process.env.DATABASE_URL;
 
 const sql = postgres(connectionString!, {
   max: 10,
