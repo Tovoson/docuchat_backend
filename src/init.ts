@@ -1,9 +1,13 @@
 // Import de la connexion SQL PostgreSQL
 import sql from "./config/db.js";
+import { deleteAllDocuments } from "./services/deleteData.js";
 
 // Fonction d'initialisation de la base de données PostgreSQL
 export const initdb = async () => {
   try {
+    // Supprimer les documents existants pour démarrer avec un état propre (Nouveau déploiement)
+    await deleteAllDocuments();
+
     // Vérifier la connexion à PostgreSQL en récupérant la version
     const versionResult = await sql`SELECT version()`;
     console.log("✅ Connexion à la base de données réussie");

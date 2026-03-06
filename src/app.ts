@@ -4,6 +4,7 @@ import cors from "cors";
 import morgan from "morgan";
 import { initdb } from "./init.js";
 import documentRoutes from "./routes/documentRoutes.js";
+import { deleteAllDocuments } from "./services/deleteData.js";
 
 const app = express();
 
