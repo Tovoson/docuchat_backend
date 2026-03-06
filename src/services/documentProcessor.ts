@@ -2,7 +2,7 @@ import { PDFParse } from "pdf-parse";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
 import { TaskType } from "@google/generative-ai";
-import sql from "../config/db.js"; // Import de la connexion Supabase
+import sql from "../config/db.js"; // Import de la connexion
 
 /**
  * Traite un buffer PDF : extrait le texte, le découpe en morceaux et stocke les embeddings dans Supabase.

@@ -49,3 +49,6 @@ DocuChat est un système de **RAG (Retrieval-Augmented Generation)** permettant 
 2. **Ingestion** : Importez un document via l'API. Le système va extraire le texte, générer des embeddings via Gemini et les stocker dans PostgreSQL.
 3. **Chat** : Envoyez une question. Le système recherchera le contexte pertinent dans la base de données et générera une réponse via l'API Gemini.
 ```
+### Deploiment
+Cet app est déjà déploié sur Railway.app
+Lien : https://docuchat-production.up.railway.app/
