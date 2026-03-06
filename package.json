@@ -10,23 +10,6 @@
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit",
     "start": "node dist/server.js"
   },
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "extensionsToTreatAsEsm": [
-      ".ts"
-    ],
-    "moduleNameMapper": {
-      "^(\\.{1,2}/.*)\\.js$": "$1"
-    },
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/dist/"
-    ],
-    "testMatch": [
-      "**/tests/**/*.test.ts"
-    ]
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
