@@ -7,7 +7,7 @@ export default {
     "^(\\.{1,2}/.*)\\.js$": "$1",
   },
   testPathIgnorePatterns: ["/node_modules/", "/dist/"],
-  testMatch: ["**/tes ts/**/*.test.ts"],
+  testMatch: ["**/tests/**/*.test.ts"],
   transform: {
     "^.+\\.tsx?$": [
       "ts-jest",
