@@ -2,7 +2,7 @@ import { type Request, type Response } from "express";
 import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { TaskType } from "@google/generative-ai";
-import sql from "../config/db.js"; // Import de la connexion Supabase
+import {sql} from "../config/db.js";
 
 // Initialisation lazy ou globale sécurisée du modèle Gemini
 const getGenerativeModel = () => {
@@ -11,11 +11,10 @@ const getGenerativeModel = () => {
     throw new Error("GOOGLE_API_KEY is missing in environment variables");
   }
   const genAI = new GoogleGenerativeAI(apiKey);
-  // Utilisation de 'gemini-flash-latest' pour éviter les erreurs de quota/version sur les modèles expérimentaux
   return genAI.getGenerativeModel({ model: "gemini-flash-latest" });
 };
 
-// Fonction pour répondre aux questions en utilisant RAG (Retrieval-Augmented Generation)
+
 export const askQuestion = async (req: Request, res: Response) => {
   try {
     const { question } = req.body;
@@ -25,10 +24,10 @@ export const askQuestion = async (req: Request, res: Response) => {
       return res.status(400).json({ error: "La question est requise" });
     }
 
-    console.log(`❓ [Chat] Question reçue : "${question}"`);
+    console.log(`[ChatController] Question reçue : "${question}"`);
 
     // 1. Génération de l'embedding de la question avec Gemini
-    console.log("🔄 Génération de l'embedding...");
+    console.log("Génération de l'embedding...");
     const embeddings = new GoogleGenerativeAIEmbeddings({
       apiKey: process.env.GOOGLE_API_KEY || "",
       modelName: "gemini-embedding-001",
@@ -36,24 +35,24 @@ export const askQuestion = async (req: Request, res: Response) => {
     });
 
     const questionVector = await embeddings.embedQuery(question);
-    console.log(`📏 Vecteur question généré (${questionVector.length} dims)`);
+    console.log(`Vecteur question généré (${questionVector.length} dims)`);
 
     // 2. Recherche vectorielle dans Supabase (Cosine Similarity)
-    console.log("🔍 Recherche dans la base de données...");
+    console.log("Recherche dans la base de données...");
     // On récupère les 3 morceaux les plus proches en utilisant l'opérateur de distance cosinus
-    const searchResult = await sql`
+    const searchResult = await sql.query(`
       SELECT content, 1 - (embedding <=> ${JSON.stringify(questionVector)}) as similarity
       FROM documents
       ORDER BY embedding <=> ${JSON.stringify(questionVector)}
       LIMIT 3
-    `;
+    `);
 
     // Extraction du contexte à partir des résultats de la recherche
     const context = searchResult.map((row: any) => row.content).join("\n\n");
-    console.log(`📚 Contexte trouvé (${searchResult.length} morceaux)`);
+    console.log(`Contexte trouvé (${searchResult.length} morceaux)`);
 
     // 3. Construire le prompt pour Gemini avec le contexte récupéré
-    console.log("🤖 Génération de la réponse avec Gemini...");
+    console.log("Génération de la réponse avec Gemini...");
     const prompt = `Voici des informations contextuelles extraites d'un document PDF :
     
     ${context}
@@ -68,7 +67,7 @@ export const askQuestion = async (req: Request, res: Response) => {
     const response = result.response;
     const answer = response.text();
 
-    console.log("✅ Réponse générée avec succès");
+    console.log("Réponse générée avec succès");
 
     // Retourner la réponse avec les sources utilisées
     res.json({
@@ -79,7 +78,7 @@ export const askQuestion = async (req: Request, res: Response) => {
       })),
     });
   } catch (error: any) {
-    console.error("❌ [Chat] Erreur détaillée :", error);
+    console.error("[Chat] Erreur détaillée :", error);
     if (error.response) {
       console.error("   Détails API :", error.response.data);
     }

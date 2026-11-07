@@ -1,10 +1,10 @@
-import sql from "../config/db.js";
+import {sql} from "../config/db.js";
 
 export const deleteAllDocuments = async () => {
   try {
-    await sql`DELETE FROM documents`;
-    console.log("✅ All documents deleted");
+    await sql.query("DELETE FROM documents");
+    console.log(" All documents deleted");
   } catch (error) {
-    console.error("❌ Error deleting documents:", error);
+    console.error("Error deleting documents:", error);
   }
 };

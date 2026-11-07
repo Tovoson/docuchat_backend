@@ -20,7 +20,7 @@ initdb().catch((err) => {
 /**
  * Enregistrement des routes modulaires
  */
-app.use("/api", documentRoutes);
+// app.use("/api", documentRoutes);
 
 app.get("/", async (_: Request, res: Response) => {
   res.json({ message: "Serveur DocuChat Opérationnel !" });

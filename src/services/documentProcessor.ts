@@ -2,7 +2,7 @@ import { PDFParse } from "pdf-parse";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
 import { TaskType } from "@google/generative-ai";
-import sql from "../config/db.js"; // Import de la connexion
+import {sql} from "../config/db.js"; // Import de la connexion
 
 /**
  * Traite un buffer PDF : extrait le texte, le découpe en morceaux et stocke les embeddings dans Supabase.
@@ -45,7 +45,7 @@ export const processPdf = async (buffer: Buffer) => {
       const vector = await embeddings.embedQuery(chunk);
 
       console.log(
-        `    📏 Taille du vecteur pour le morceau ${i + 1} : ${vector.length}`,
+        ` Taille du vecteur pour le morceau ${i + 1} : ${vector.length}`,
       );
 
       if (!vector || vector.length === 0) {
@@ -55,10 +55,10 @@ export const processPdf = async (buffer: Buffer) => {
       }
 
       // 5. Sauvegarde dans Supabase avec l'embedding vectoriel
-      await sql`
+      await sql.query(`
         INSERT INTO documents (content, embedding) 
         VALUES (${chunk}, ${JSON.stringify(vector)})
-      `;
+      `);
     } catch (err) {
       console.error(`❌ Erreur lors du traitement du morceau ${i + 1}:`, err);
       throw err;

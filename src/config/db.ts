@@ -1,15 +1,13 @@
-import postgres from "postgres";
+import { Pool } from 'pg';
+import dotenv from 'dotenv';
 
-const connectionString =
-  process.env.NODE_ENV === "production"
-    ? process.env.DATABASE_URL_NEON
-    : process.env.DATABASE_URL_LOCAL;
+dotenv.config();
 
-const sql = postgres(connectionString!, {
-  max: 10,
-  idle_timeout: 20,
-  connect_timeout: 10,
-  ssl: process.env.NODE_ENV === "production" ? "require" : false,
+export const sql = new Pool({
+  user: process.env.PGUSER,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  password: process.env.PGPASSWORD,
+  port: process.env.PGPORT,
 });
 
-export default sql;

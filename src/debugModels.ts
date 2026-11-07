@@ -7,12 +7,9 @@ const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY || "");
 
 async function listModels() {
   try {
-    // In @google/generative-ai v0.24.1, listModels is indeed a function
-    // but maybe it's not exported or typed correctly in this environment?
-    // Let's try to see the properties of genAI
+    
     console.log("genAI properties:", Object.keys(genAI));
 
-    // Attempting raw fetch if SDK is problematic
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models?key=${process.env.GOOGLE_API_KEY}`,
     );
